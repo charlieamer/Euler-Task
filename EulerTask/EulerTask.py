@@ -5,6 +5,22 @@ from bs4 import BeautifulSoup as bs
 from random import random
 
 class EulerTask:
+
+	"""
+    * Importing the class:
+    from EulerTask import EulerTask
+    
+    * Submit solution:
+    EulerTask('username', 'password').setProblem(ProblemNumber).solve(MySolution)
+    
+    * Print problem statement:
+    EulerTask('username', 'password').setProblem(ProblemNumber).printProblemStatement()
+    
+    * Print problem statement and submit solution:
+    EulerTask('username', 'password').setProblem(ProblemNumber).printProblemStatement().solve(MySolution)
+    """
+
+
 	def __init__(self, username, password):
 		self.agent = mechanize.Browser()
 		self.username = username
@@ -59,3 +75,6 @@ class EulerTask:
 		except ValueError:
 			print ("You already solved this problem")
 		return self
+		
+if __name__=="__main__":
+        print(help(EulerTask))
