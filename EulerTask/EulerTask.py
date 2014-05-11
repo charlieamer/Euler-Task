@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 from pictureShower import pictureShower
 import mechanize
 import re
