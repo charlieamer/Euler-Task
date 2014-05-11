@@ -99,7 +99,7 @@ class EulerTask:
 						"Solution was submitted with the project Euler-Task: [url]https://github.com/charlieamer/Euler-Task[/url]\n"
 						"[code=python]%s[/code]")
 					self.agent.form.find_control('message').value = self.threadText%txt
-					print('Submitting your solution to thread ... Visit http://bit.ly/1qtINPi for mor details')
+					print('Submitting your solution to thread ... Visit FAQ (http://bit.ly/1qtINPi) for more details')
 					self.agent.submit()
 				except IOError:
 					print("Error opening file :(")
