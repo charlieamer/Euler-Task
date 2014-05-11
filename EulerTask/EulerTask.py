@@ -27,6 +27,7 @@ class EulerTask:
 		self.username = username
 		self.password = password
 		self.threadText = threadText
+		self.forceSubmit = forceSubmit
 		print('Going to the project euler login page ...')
 		self.agent.open('http://projecteuler.net/login')
 		print('Logging in ...')
@@ -76,16 +77,18 @@ class EulerTask:
 				if self.threadText is not None: self.solutionToThread()
 			print ("#######################################")
 		except ValueError:
-			print ("You already solved this problem")
+			print ("ERROR: You already solved this problem")
+			if self.threadText is not None and self.forceSubmit: self.solutionToThread()
 		return self
 
 	def solutionToThread(self):
 		print("Fetching thread ... (Don't want this ? Visit https://github.com/charlieamer/Euler-Task/blob/master/Automatic%20solution%20submission%20FAQ.md)")
-		self.agent.open('http://projecteuler.net/new_post='+self.problem)
-		self.agent.select_form(nr = 0)
+		mpath = os.path.realpath(__file__).replace('.pyc','.py')
 		for stack in traceback.extract_stack()[::-1]:
-			if not os.path.realpath(__file__) == os.path.realpath(stack[0]):
+			if not mpath == os.path.realpath(stack[0]):
 				try:
+					self.agent.open('http://projecteuler.net/new_post='+self.problem)
+					self.agent.select_form(nr = 0)
 					txt = open(os.path.realpath(stack[0]),'r').read()
 					txt = txt.replace(self.username,'YOUR USERNAME HERE').replace(self.password,'YOUR PASSWORD HERE')
 					if self.threadText == "Default":
@@ -97,6 +100,8 @@ class EulerTask:
 					self.agent.submit()
 				except IOError:
 					print("Error opening file :(")
+				except mechanize._mechanize.FormNotFoundError:
+					print("ERROR: You already wrote in this thread")
 				finally:
 					break
 		return self
