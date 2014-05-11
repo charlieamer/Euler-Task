@@ -25,7 +25,7 @@ class EulerTask:
     """
 
 
-	def __init__(self, username, password, threadText = "Default", forceSubmit = False):
+	def __init__(self, username, password, threadText = None, forceSubmit = False):
 		self.agent = mechanize.Browser()
 		self.username = username
 		self.password = password
@@ -77,7 +77,10 @@ class EulerTask:
 				print ("The answer '"+solution+"' was INCORRECT")
 			else:
 				print ("The answer '"+solution+"' was CORRECT")
-				if self.threadText is not None: self.solutionToThread()
+				if self.threadText is not None:
+					self.solutionToThread()
+				else:
+					print("* Wanna automaticly submit your code to thread ?\n* Put threadText = 'Default' in EulerTask constructor\n* Visit FAQ for more information: http://bit.ly/1qtINPi")
 			print ("#######################################")
 		except ValueError:
 			print ("ERROR: You already solved this problem")
@@ -85,7 +88,7 @@ class EulerTask:
 		return self
 
 	def solutionToThread(self):
-		print("Fetching thread ... (Don't want this? Visit put threadText = None when creating EulerTask object)")
+		print("Fetching thread ...")
 		mpath = os.path.realpath(__file__).replace('.pyc','.py')
 		for stack in traceback.extract_stack()[::-1]:
 			if not mpath == os.path.realpath(stack[0]):
@@ -96,10 +99,10 @@ class EulerTask:
 					txt = txt.replace(self.username,'YOUR USERNAME HERE').replace(self.password,'YOUR PASSWORD HERE')
 					if self.threadText == "Default":
 						self.threadText = ("My solution in python:\n"
-						"Solution was submitted with the project Euler-Task: [url]https://github.com/charlieamer/Euler-Task[/url]\n"
-						"[code=python]%s[/code]")
+						"[code=python]%s[/code]\n"
+						"Solution was submitted with the project Euler-Task from github.")
 					self.agent.form.find_control('message').value = self.threadText%txt
-					print('Submitting your solution to thread ... Visit FAQ (http://bit.ly/1qtINPi) for more details')
+					print('Submitting your solution to thread ...')
 					self.agent.submit()
 				except IOError:
 					print("Error opening file :(")
