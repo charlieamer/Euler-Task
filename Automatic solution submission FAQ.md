@@ -11,8 +11,18 @@ What about my username and password information ?
 
 Can I put my custom message in thread ?
 ---------------------------------------
-> For now, **you cannot** put your custom message to thread. *That feature will be added soon*.
+> **Yes**, when initializing EulerTask object, put threadText = "Your text". Put '%s' in place where you want your code to be. For example:
+```python
+EulerTask('Username', 'Password', threadText = "Check out my awesome code: %s")
+```
 
 Can I disable this feature ?
 ----------------------------
-> **No** for now, *this will be added soon*.
+> **Yes** put threadText = None when initializing EulerTask object.
+```python
+EulerTask('Username', 'Password', threadText = None)
+```
+
+Can I force resubmit my code to thread although I already solved the task ?
+---------------------------------------------------------------------------
+> **No**, but you will be able to do so soon.

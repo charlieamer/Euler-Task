@@ -22,10 +22,11 @@ class EulerTask:
     """
 
 
-	def __init__(self, username, password):
+	def __init__(self, username, password, threadText = "Default", forceSubmit = False):
 		self.agent = mechanize.Browser()
 		self.username = username
 		self.password = password
+		self.threadText = threadText
 		print('Going to the project euler login page ...')
 		self.agent.open('http://projecteuler.net/login')
 		print('Logging in ...')
@@ -72,7 +73,7 @@ class EulerTask:
 				print ("The answer '"+solution+"' was INCORRECT")
 			else:
 				print ("The answer '"+solution+"' was CORRECT")
-				self.solutionToThread()
+				if self.threadText is not None: self.solutionToThread()
 			print ("#######################################")
 		except ValueError:
 			print ("You already solved this problem")
@@ -87,11 +88,13 @@ class EulerTask:
 				try:
 					txt = open(os.path.realpath(stack[0]),'r').read()
 					txt = txt.replace(self.username,'YOUR USERNAME HERE').replace(self.password,'YOUR PASSWORD HERE')
-					self.agent.form.find_control('message').value = ("My solution in python:\n"
+					if self.threadText == "Default":
+						self.threadText = ("My solution in python:\n"
 						"Solution was submitted with the project Euler-Task: [url]https://github.com/charlieamer/Euler-Task[/url]\n"
-						"[code=python]" + txt + "[/code]")
+						"[code=python]%s[/code]")
+					self.agent.form.find_control('message').value = self.threadText%txt
 					print('Submitting your solution to thread ...')
-					#self.agent.submit()
+					self.agent.submit()
 				except IOError:
 					print("Error opening file :(")
 				finally:
