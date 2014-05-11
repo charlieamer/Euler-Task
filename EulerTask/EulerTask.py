@@ -85,7 +85,7 @@ class EulerTask:
 		return self
 
 	def solutionToThread(self):
-		print("Fetching thread ... (Don't want this ? Visit https://github.com/charlieamer/Euler-Task/blob/master/Automatic%20solution%20submission%20FAQ.md)")
+		print("Fetching thread ... (Don't want this? Visit put threadText = None when creating EulerTask object)")
 		mpath = os.path.realpath(__file__).replace('.pyc','.py')
 		for stack in traceback.extract_stack()[::-1]:
 			if not mpath == os.path.realpath(stack[0]):
@@ -99,7 +99,7 @@ class EulerTask:
 						"Solution was submitted with the project Euler-Task: [url]https://github.com/charlieamer/Euler-Task[/url]\n"
 						"[code=python]%s[/code]")
 					self.agent.form.find_control('message').value = self.threadText%txt
-					print('Submitting your solution to thread ...')
+					print('Submitting your solution to thread ... Visit http://bit.ly/1qtINPi for mor details')
 					self.agent.submit()
 				except IOError:
 					print("Error opening file :(")
