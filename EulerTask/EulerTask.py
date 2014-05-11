@@ -3,6 +3,7 @@ import mechanize
 import re
 from bs4 import BeautifulSoup as bs
 from random import random
+import traceback, os
 
 class EulerTask:
 
@@ -74,7 +75,31 @@ class EulerTask:
 			print ("#######################################")
 		except ValueError:
 			print ("You already solved this problem")
+		self.solutionToThread()
 		return self
+
+	def solutionToThread(self):
+		print("Fetching thread ... (Don't want this ?)")
+		self.agent.open('http://projecteuler.net/new_post='+self.problem)
+		self.agent.select_form(nr = 0)
+		for stack in traceback.extract_stack()[::-1]:
+			if not os.path.realpath(__file__) == os.path.realpath(stack[0]):
+				try:
+					print stack, os.path.realpath(stack[0])
+					txt = open(os.path.realpath(stack[0]),'r').read()
+					txt = txt.replace(self.username,'YOUR USERNAME HERE').replace(self.password,'YOUR PASSWORD HERE')
+					self.agent.form.find_control('message').value = ("My solution in python:\n"
+						"Solution was submitted with the project Euler-Task: [url]https://github.com/charlieamer/Euler-Task[/url]\n"
+						"[code=python]" + txt + "[/code]")
+					print('Submitting your solution to thread ...')
+					self.agent.submit()
+				except IOError:
+					print("Error opening file :(")
+				finally:
+					break
+		return self
+
+
 		
 if __name__=="__main__":
         print(help(EulerTask))
